@@ -1,0 +1,297 @@
+{% extends 'layout.jinja2' %}
+
+{% block head %}
+    <link href="{{ url_for('first_run_bp.static', filename='css/first_boot.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body_tag %}class="text-center"{% endblock %}
+{% block body %}
+    <main class="form-register">
+        {% include 'alert.jinja2' %}
+        <div class="card">
+            <div class="card-header">CLIMB - Setup</div>
+            <div class="card-body">
+                <div class="progress">
+                    <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 0%"></div>
+                </div>
+                <div id="qbox-container" class="pt-4 ps-1 pe-1">
+                    <form class="needs-validation" id="form-wrapper" method="post" novalidate>
+                        <div id="steps-container">
+                            <div class="step">
+                                <h4>This is the first run setup wizard.</h4>
+                                <p id="start_message">First please create the admin account.</p>
+                            </div>
+                            <div class="step">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <h6>Admin account</h6>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="validationCustom01" class="form-label">First name</label>
+                                        <input type="text" class="form-control" id="validationCustom01" name="first_name" value="" required>
+                                        <div class="valid-feedback">Please enter a valid first name.</div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="validationCustom02" class="form-label">Middle name (optional)</label>
+                                        <input type="text" class="form-control" id="validationCustom02" name="middle_name" value="">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="validationCustom03" class="form-label">Last name</label>
+                                        <input type="text" class="form-control" id="validationCustom03" name="last_name" value="" required>
+                                        <div class="invalid-feedback">Please enter a valid last name.</div>
+                                    </div>
+                                    <hr/>
+                                    <div class="col-md-6 mt-0">
+                                        <div class="row g-3">
+                                            <div class="col-md-12">
+                                                <label for="validationCustom04" class="form-label">Address line 1</label>
+                                                <input type="text" class="form-control" id="validationCustom04" name="address_line_1" value="" required>
+                                                <div class="valid-feedback">Looks good!</div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="validationCustom05" class="form-label">Address line 2</label>
+                                                <input type="text" class="form-control" id="validationCustom05" name="address_line_2" value="" required>
+                                                <div class="valid-feedback">Looks good!</div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="validationCustom06" class="form-label">Town / City</label>
+                                                <input type="text" class="form-control" id="validationCustom06" name="address_line_3" value="" required>
+                                                <div class="invalid-feedback">Please enter a town / city.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mt-0">
+                                        <div class="row g-3">
+                                            <div class="col-md-12">
+                                                <label for="validationCustom07" class="form-label">County</label>
+                                                <input type="text" class="form-control" id="validationCustom07" name="county" value="" required>
+                                                <div class="invalid-feedback">Please enter a valid county.</div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="validationCustom08" class="form-label">Postcode</label>
+                                                <input type="text" class="form-control" id="validationCustom08" name="postcode" value="" required>
+                                                <div class="invalid-feedback">Please enter a valid postcode.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div class="col-md-12 mt-0">
+                                        <div class="row g-3">
+                                            <div class="col-md-4">
+                                                <label for="validationCustom10" class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="validationCustom10" name="email" value="" required>
+                                                <div class="invalid-feedback">Please enter a valid email.</div>
+                                                <label for="validationCustom11" class="form-label mt-3">Date of birth</label>
+                                                <input type="date" class="form-control" id="validationCustom11" name="date_of_birth" value="" required>
+                                                <div class="invalid-feedback">Please enter a valid date.</div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="inputPassword" class="form-label">Password</label>
+                                                <input type="password" id="inputPassword" class="form-control" name="password" required>
+                                                <label for="inputRepeatPassword" class="form-label mt-3">Repeat password</label>
+                                                <input type="password" id="inputRepeatPassword" class="form-control" name="repeatPassword" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="validationCustom12" class="form-label">Home phone number</label>
+                                                <input type="text" class="form-control" id="validationCustom12" name="home_phone" value="">
+                                                <div class="invalid-feedback">Please enter a valid phone number.</div>
+                                                <label for="validationCustom13" class="form-label mt-3">Mobile phone number</label>
+                                                <input type="text" class="form-control" id="validationCustom13" name="mobile_phone" value="">
+                                                <div class="invalid-feedback">Please enter a valid phone number.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div class="col-md-6 mt-0">
+                                        <label for="validationCustom12" class="form-label">Emergency contact full name</label>
+                                        <input type="text" class="form-control" id="validationCustom14" name="emergency_name" value="" required>
+                                        <div class="invalid-feedback">Please enter a valid name.</div>
+                                    </div>
+                                    <div class="col-md-6 mt-0">
+                                        <label for="validationCustom12" class="form-label">Emergency contact number</label>
+                                        <input type="text" class="form-control" id="validationCustom15" name="emergency_phone" value="" required>
+                                        <div class="invalid-feedback">Please enter a valid phone number.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <h6>Standard settings</h6>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="numPeople">Number of users at a time:</label><input type="number" class="form-control" min=1 step="1" id="numPeople" name="numPeople" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="numPeople">Minuets range members can arrive:</label><input type="number" class="form-control" min=0 step="1" id="arrivalRange" name="earlyStart" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="adultPrice">Price for adult:</label><input type="number" class="form-control" min=0.01 step="any" id="adultPrice" name="adultPrice" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="childPrice">Price for child:</label><input type="number" class="form-control" min=0.01 step="any" id="childPrice" name="childPrice" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <h6>Standard days</h6>
+                                    </div>
+                                    <div class="col-12">
+                                        <ul class="list-group">
+                                            <li class="list-group-item list-group-item-secondary">
+                                                <div class="row g-3">
+                                                    <div class="col-2">
+                                                        <h6 class="mb-0">Is Open</h6>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <h6 class="mb-0">Open Time</h6>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <h6 class="mb-0">Close Time</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item {% if 'monday' in errors %}list-group-item-danger{% endif %}">
+                                                <p class="text-center" style="margin-bottom: 0.5rem"><strong>Monday</strong></p>
+                                                <div class="row g-3">
+                                                    <div class="col-2">
+                                                        <div class="form-check form-switch ps-0">
+                                                            <input type="checkbox" class="btn-check" id="mon-open" autocomplete="off" name="monday-open">
+                                                            <label class="btn btn-outline-primary" for="mon-open">Open</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <input id="mon-o-time" class="form-control" type="time" name="monday-o-time" disabled>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <input id="mon-c-time" class="form-control" type="time" name="monday-c-time" disabled>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item {% if 'tuesday' in errors %}list-group-item-danger{% endif %}">
+                                                <p class="text-center" style="margin-bottom: 0.5rem"><strong>Tuesday</strong></p>
+                                                <div class="row g-3">
+                                                    <div class="col-2">
+                                                        <div class="form-check form-switch ps-0">
+                                                            <input type="checkbox" class="btn-check" id="tue-open" autocomplete="off" name="tuesday-open">
+                                                            <label class="btn btn-outline-primary" for="tue-open">Open</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <input id="tue-o-time" class="form-control" type="time" name="tuesday-o-time" disabled>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <input id="tue-c-time" class="form-control" type="time" name="tuesday-c-time" disabled>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item {% if 'wednesday' in errors %}list-group-item-danger{% endif %}">
+                                                <p class="text-center" style="margin-bottom: 0.5rem"><strong>Wednesday</strong></p>
+                                                <div class="row g-3">
+                                                    <div class="col-2">
+                                                        <div class="form-check form-switch ps-0">
+                                                            <input type="checkbox" class="btn-check" id="wed-open" autocomplete="off" name="wednesday-open">
+                                                            <label class="btn btn-outline-primary" for="wed-open">Open</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <input id="wed-o-time" class="form-control" type="time" name="wednesday-o-time" disabled>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <input id="wed-c-time" class="form-control" type="time" name="wednesday-c-time" disabled>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item {% if 'thursday' in errors %}list-group-item-danger{% endif %}">
+                                                <p class="text-center" style="margin-bottom: 0.5rem"><strong>Thursday</strong></p>
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        <div class="form-check form-switch ps-0">
+                                                            <input type="checkbox" class="btn-check" id="thu-open" autocomplete="off" name="thursday-open">
+                                                            <label class="btn btn-outline-primary" for="thu-open">Open</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <input id="thu-o-time" class="form-control" type="time" name="thursday-o-time" disabled>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <input id="thu-c-time" class="form-control" type="time" name="thursday-c-time" disabled>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item {% if 'friday' in errors %}list-group-item-danger{% endif %}">
+                                                <p class="text-center" style="margin-bottom: 0.5rem"><strong>Friday</strong></p>
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        <div class="form-check form-switch ps-0">
+                                                            <input type="checkbox" class="btn-check" id="fri-open" autocomplete="off" name="friday-open">
+                                                            <label class="btn btn-outline-primary" for="fri-open">Open</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <input id="fri-o-time" class="form-control" type="time" name="friday-o-time" disabled>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <input id="fri-c-time" class="form-control" type="time" name="friday-c-time" disabled>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item {% if 'saturday' in errors %}list-group-item-danger{% endif %}">
+                                                <p class="text-center" style="margin-bottom: 0.5rem"><strong>Saturday</strong></p>
+                                                <div class="row g-3">
+                                                    <div class="col-2">
+                                                        <div class="form-check form-switch ps-0">
+                                                            <input type="checkbox" class="btn-check" id="sat-open" autocomplete="off" name="saturday-open">
+                                                            <label class="btn btn-outline-primary" for="sat-open">Open</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <input id="sat-o-time" class="form-control" type="time" name="saturday-o-time" disabled>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <input id="sat-c-time" class="form-control" type="time" name="saturday-c-time" disabled>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item {% if 'sunday' in errors %}list-group-item-danger{% endif %}">
+                                                <p class="text-center" style="margin-bottom: 0.5rem"><strong>Sunday</strong></p>
+                                                <div class="row g-3">
+                                                    <div class="col-2">
+                                                        <div class="form-check form-switch ps-0">
+                                                            <input type="checkbox" class="btn-check" id="sun-open" autocomplete="off" name="sunday-open">
+                                                            <label class="btn btn-outline-primary" for="sun-open">Open</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <input type="time" id="sun-o-time" class="form-control" name="sunday-o-time" disabled>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <input type="time" class="form-control" name="sunday-c-time" id="sun-c-time" disabled>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="q-box__buttons" class="pt-3">
+                            <button id="prev-btn" class="btn btn-secondary" type="button" name="prev">Previous</button>
+                            <button id="next-btn" class="btn btn-secondary" type="button" name="next">Next</button>
+                            <button id="submit-btn" class="btn btn-primary" type="submit" name="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="visually-hidden py-4"> . </div>
+    </main>
+
+    {% include 'footer.jinja2' %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('first_run_bp.static', filename='js/form.js') }}"></script>
+{% endblock %}
