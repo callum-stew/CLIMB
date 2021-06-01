@@ -1,0 +1,227 @@
+{% extends 'staff_dashboard_layout.jinja2' %}
+
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='css/timepicker.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            Settings
+        </div>
+        <div class="card-body" id="item_edit">
+            <div class="row g-3">
+                <div class="col-6 border-end">
+                    <form method="post">
+                        <input type="hidden" name="type" value="s-days">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <h6>Standard days</h6>
+                            </div>
+                            <div class="col-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-secondary">
+                                        <div class="row g-3">
+                                            <div class="col-2">
+                                                <h6 class="mb-0">Is Open</h6>
+                                            </div>
+                                            <div class="col-5">
+                                                <h6 class="mb-0">Open Time</h6>
+                                            </div>
+                                            <div class="col-5">
+                                                <h6 class="mb-0">Close Time</h6>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item {% if 'monday' in errors %}list-group-item-danger{% endif %}">
+                                        <p class="text-center" style="margin-bottom: 0.5rem"><strong>Monday</strong></p>
+                                        <div class="row g-3">
+                                            <div class="col-2">
+                                                <div class="form-check form-switch ps-0">
+                                                    <input type="checkbox" class="btn-check" id="mon-open" autocomplete="off" name="monday-open" {% if week_days.get('monday')['open'] %}checked{% endif %}>
+                                                    <label class="btn btn-outline-primary" for="mon-open">Open</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-5">
+                                                <input id="mon-o-time" class="form-control" type="time" name="monday-o-time" value="{{ week_days.get('monday')['opening_time'] }}" {% if not week_days.get('monday')['open'] %}disabled{% endif %}>
+                                            </div>
+                                            <div class="col-5">
+                                                <input id="mon-c-time" class="form-control" type="time" name="monday-c-time" value="{{ week_days.get('monday')['closing_time'] }}" {% if not week_days.get('monday')['open'] %}disabled{% endif %}>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item {% if 'tuesday' in errors %}list-group-item-danger{% endif %}">
+                                        <p class="text-center" style="margin-bottom: 0.5rem"><strong>Tuesday</strong></p>
+                                        <div class="row g-3">
+                                            <div class="col-2">
+                                                <div class="form-check form-switch ps-0">
+                                                    <input type="checkbox" class="btn-check" id="tue-open" autocomplete="off" name="tuesday-open" {% if week_days.get('tuesday')['open'] %}checked{% endif %}>
+                                                    <label class="btn btn-outline-primary" for="tue-open">Open</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-5">
+                                                <input id="tue-o-time" class="form-control" type="time" name="tuesday-o-time" value="{{ week_days.get('tuesday')['opening_time'] }}" {% if not week_days.get('tuesday')['open'] %}disabled{% endif %}>
+                                            </div>
+                                            <div class="col-5">
+                                                <input id="tue-c-time" class="form-control" type="time" name="tuesday-c-time" value="{{ week_days.get('tuesday')['closing_time'] }}" {% if not week_days.get('tuesday')['open'] %}disabled{% endif %}>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item {% if 'wednesday' in errors %}list-group-item-danger{% endif %}">
+                                        <p class="text-center" style="margin-bottom: 0.5rem"><strong>Wednesday</strong></p>
+                                        <div class="row g-3">
+                                            <div class="col-2">
+                                                <div class="form-check form-switch ps-0">
+                                                    <input type="checkbox" class="btn-check" id="wed-open" autocomplete="off" name="wednesday-open" {% if week_days.get('wednesday')['open'] %}checked{% endif %}>
+                                                    <label class="btn btn-outline-primary" for="wed-open">Open</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-5">
+                                                <input id="wed-o-time" class="form-control" type="time" name="wednesday-o-time" value="{{ week_days.get('wednesday')['opening_time'] }}" {% if not week_days.get('wednesday')['open'] %}disabled{% endif %}>
+                                            </div>
+                                            <div class="col-5">
+                                                <input id="wed-c-time" class="form-control" type="time" name="wednesday-c-time" value="{{ week_days.get('wednesday')['closing_time'] }}" {% if not week_days.get('wednesday')['open'] %}disabled{% endif %}>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item {% if 'thursday' in errors %}list-group-item-danger{% endif %}">
+                                        <p class="text-center" style="margin-bottom: 0.5rem"><strong>Thursday</strong></p>
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <div class="form-check form-switch ps-0">
+                                                    <input type="checkbox" class="btn-check" id="thu-open" autocomplete="off" name="thursday-open" {% if week_days.get('thursday')['open'] %}checked{% endif %}>
+                                                    <label class="btn btn-outline-primary" for="thu-open">Open</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-5">
+                                                <input id="thu-o-time" class="form-control" type="time" name="thursday-o-time" value="{{ week_days.get('thursday')['opening_time'] }}" {% if not week_days.get('thursday')['open'] %}disabled{% endif %}>
+                                            </div>
+                                            <div class="col-5">
+                                                <input id="thu-c-time" class="form-control" type="time" name="thursday-c-time" value="{{ week_days.get('thursday')['closing_time'] }}" {% if not week_days.get('thursday')['open'] %}disabled{% endif %}>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item {% if 'friday' in errors %}list-group-item-danger{% endif %}">
+                                        <p class="text-center" style="margin-bottom: 0.5rem"><strong>Friday</strong></p>
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <div class="form-check form-switch ps-0">
+                                                    <input type="checkbox" class="btn-check" id="fri-open" autocomplete="off" name="friday-open" {% if week_days.get('friday')['open'] %}checked{% endif %}>
+                                                    <label class="btn btn-outline-primary" for="fri-open">Open</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-5">
+                                                <input id="fri-o-time" class="form-control" type="time" name="friday-o-time" value="{{ week_days.get('friday')['opening_time'] }}" {% if not week_days.get('friday')['open'] %}disabled{% endif %}>
+                                            </div>
+                                            <div class="col-5">
+                                                <input id="fri-c-time" class="form-control" type="time" name="friday-c-time" value="{{ week_days.get('friday')['closing_time'] }}" {% if not week_days.get('friday')['open'] %}disabled{% endif %}>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item {% if 'saturday' in errors %}list-group-item-danger{% endif %}">
+                                        <p class="text-center" style="margin-bottom: 0.5rem"><strong>Saturday</strong></p>
+                                        <div class="row g-3">
+                                            <div class="col-2">
+                                                <div class="form-check form-switch ps-0">
+                                                    <input type="checkbox" class="btn-check" id="sat-open" autocomplete="off" name="saturday-open" {% if week_days.get('saturday')['open'] %}checked{% endif %}>
+                                                    <label class="btn btn-outline-primary" for="sat-open">Open</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-5">
+                                                <input id="sat-o-time" class="form-control" type="time" name="saturday-o-time" value="{{ week_days.get('saturday')['opening_time'] }}" {% if not week_days.get('saturday')['open'] %}disabled{% endif %}>
+                                            </div>
+                                            <div class="col-5">
+                                                <input id="sat-c-time" class="form-control" type="time" name="saturday-c-time" value="{{ week_days.get('saturday')['closing_time'] }}" {% if not week_days.get('saturday')['open'] %}disabled{% endif %}>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item {% if 'sunday' in errors %}list-group-item-danger{% endif %}">
+                                        <p class="text-center" style="margin-bottom: 0.5rem"><strong>Sunday</strong></p>
+                                        <div class="row g-3">
+                                            <div class="col-2">
+                                                <div class="form-check form-switch ps-0">
+                                                    <input type="checkbox" class="btn-check" id="sun-open" autocomplete="off" name="sunday-open" {% if week_days.get('sunday')['open'] %}checked{% endif %}>
+                                                    <label class="btn btn-outline-primary" for="sun-open">Open</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-5">
+                                                <input type="time" id="sun-o-time" class="form-control" name="sunday-o-time" value="{{ week_days.get('sunday')['opening_time'] }}" {% if not week_days.get('sunday')['open'] %}disabled{% endif %}>
+                                            </div>
+                                            <div class="col-5">
+                                                <input type="time" class="form-control" name="sunday-c-time" id="sun-c-time" value="{{ week_days.get('sunday')['closing_time'] }}" {% if not week_days.get('sunday')['open'] %}disabled{% endif %}>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-12 d-flex">
+                                <button class="btn btn-primary flex-fill" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form method="post">
+                        <input type="hidden" name="type" value="settings">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <h6>Standard settings</h6>
+                            </div>
+                            <div class="col-6">
+                                <label for="numPeople">Number of users at a time:</label><input type="number" class="form-control" min=1 step="1" id="numPeople" name="numPeople" value="{{ settings.get('number_of_people') }}" required>
+                            </div>
+                            <div class="col-6">
+                                <label for="numPeople">Minuets range members can arrive:</label><input type="number" class="form-control" min=0 step="1" id="arrivalRange" name="earlyStart" value="{{ settings.get('early_start') }}" required>
+                            </div>
+                            <div class="col-6">
+                                <label for="adultPrice">Price for adult:</label><input type="number" class="form-control" min=0.01 step="any" id="adultPrice" name="adultPrice" value="{{ settings.get('adult_price') }}" required>
+                            </div>
+                            <div class="col-6">
+                                <label for="childPrice">Price for child:</label><input type="number" class="form-control" min=0.01 step="any" id="childPrice" name="childPrice" value="{{ settings.get('child_price') }}" required>
+                            </div>
+                            <div class="d-flex">
+                                <button class="btn btn-primary flex-fill" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                    <hr/>
+                    <form method="post">
+                        <input type="hidden" name="type" value="c-day">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <h6>Custom day</h6>
+                            </div>
+                            <div class="col-12">
+                                <label for="datepicker" class="form-label">Select date first</label>
+                                <input id="datepicker" class="form-control" readonly="" name="date" style="background-color: white">
+                            </div>
+                            <div class="col-2">
+                                <div class="form-check form-switch ps-0">
+                                    <input type="checkbox" class="btn-check" id="custom-open" autocomplete="off" name="open" disabled>
+                                    <label class="btn btn-outline-primary" for="custom-open">Open</label>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <input id="custom-o-time" class="form-control" type="time" name="o-time" disabled>
+                            </div>
+                            <div class="col-5">
+                                <input id="custom-c-time" class="form-control" type="time" name="c-time" disabled>
+                            </div>
+                            <div class="d-flex">
+                                <button class="btn btn-primary flex-fill" type="submit" disabled id="set">Set</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/litepicker.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/timepicker.js') }}"></script>
+    <script src="{{ url_for('dashboard_bp.static', filename='js/staff_settings.js') }}"></script>
+{% endblock %}

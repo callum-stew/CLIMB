@@ -1,0 +1,63 @@
+.edit-button{
+    background-color: #b1b1b1;
+}
+.edit-button:hover{
+    background-color: #a5a5a5;
+    cursor: pointer;
+}
+
+.close-button{
+    background-color: #bc0000;
+    color: white;
+}
+.close-button:hover{
+    background-color: #ae0000;
+    cursor: pointer;
+}
+
+.create-user-box{
+    background-color: #ffffff;
+    color: #000000;
+}
+.create-user-box:hover{
+    background-color: #e5e5e5;
+    cursor: pointer;
+}
+
+.item-button{
+    color: white;
+}
+.item-button:hover{
+    color: #bebebe;
+    cursor: pointer;
+}
+
+.item-button-w{
+    color: rgb(0, 0, 0);
+}
+.item-button-w:hover{
+    color: #696969;
+    cursor: pointer;
+}
+
+.item-button-wr{
+    color: rgb(0, 0, 0);
+}
+.item-button-wr:hover{
+    color: #a70000;
+    cursor: pointer;
+}
+
+.basketTotalDiv, .basketTotalDiv:before, .basketTotalDiv:after {
+    user-select: none;
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+}
+
+.basket_item, .basket_item:before, .basket_item {
+    user-select: none;
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+}

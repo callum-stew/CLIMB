@@ -1,0 +1,114 @@
+{% extends 'layout.jinja2' %}
+
+{% block head %}
+    <link href="{{ url_for('auth_bp.static', filename='css/register.css') }}" rel="stylesheet">
+{% endblock %}
+
+
+{% block body_tag %}class="text-center"{% endblock %}
+{% block body %}
+    <main class="form-register">
+        {% include 'alert.jinja2' %}
+        <div class="card">
+            <div class="card-header">Register</div>
+            <div class="card-body">
+                <form class="row g-3 needs-validation" method="post" novalidate>
+                    <div class="col-md-4">
+                        <label for="validationCustom01" class="form-label">First name</label>
+                        <input type="text" class="form-control" id="validationCustom01" name="first_name" value="" required>
+                        <div class="valid-feedback">Please enter a valid first name.</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="validationCustom02" class="form-label">Middle name (optional)</label>
+                        <input type="text" class="form-control" id="validationCustom02" name="middle_name" value="">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="validationCustom03" class="form-label">Last name</label>
+                        <input type="text" class="form-control" id="validationCustom03" name="last_name" value="" required>
+                        <div class="invalid-feedback">Please enter a valid last name.</div>
+                    </div>
+                    <hr/>
+                    <div class="col-md-6 mt-0">
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label for="validationCustom04" class="form-label">Address line 1</label>
+                                <input type="text" class="form-control" id="validationCustom04" name="address_line_1" value="" required>
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="validationCustom05" class="form-label">Address line 2</label>
+                                <input type="text" class="form-control" id="validationCustom05" name="address_line_2" value="" required>
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="validationCustom06" class="form-label">Town / City</label>
+                                <input type="text" class="form-control" id="validationCustom06" name="address_line_3" value="" required>
+                                <div class="invalid-feedback">Please enter a town / city.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-0">
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label for="validationCustom07" class="form-label">County</label>
+                                <input type="text" class="form-control" id="validationCustom07" name="county" value="" required>
+                                <div class="invalid-feedback">Please enter a valid county.</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="validationCustom08" class="form-label">Postcode</label>
+                                <input type="text" class="form-control" id="validationCustom08" name="postcode" value="" required>
+                                <div class="invalid-feedback">Please enter a valid postcode.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="col-md-12 mt-0">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="validationCustom10" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="validationCustom10" name="email" value="" required>
+                                <div class="invalid-feedback">Please enter a valid email.</div>
+                                <label for="validationCustom11" class="form-label mt-3">Date of birth</label>
+                                <input type="date" class="form-control" id="validationCustom11" name="date_of_birth" value="" required>
+                                <div class="invalid-feedback">Please enter a valid date.</div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="inputPassword" class="form-label">Password</label>
+                                <input type="password" id="inputPassword" class="form-control" name="password" required>
+                                <label for="inputRepeatPassword" class="form-label mt-3">Repeat password</label>
+                                <input type="password" id="inputRepeatPassword" class="form-control" name="repeatPassword" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="validationCustom12" class="form-label">Home phone number</label>
+                                <input type="text" class="form-control" id="validationCustom12" name="home_phone" value="">
+                                <div class="invalid-feedback">Please enter a valid phone number.</div>
+                                <label for="validationCustom13" class="form-label mt-3">Mobile phone number</label>
+                                <input type="text" class="form-control" id="validationCustom13" name="mobile_phone" value="">
+                                <div class="invalid-feedback">Please enter a valid phone number.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="col-md-6 mt-0">
+                        <label for="validationCustom12" class="form-label">Emergency contact full name</label>
+                        <input type="text" class="form-control" id="validationCustom14" name="emergency_name" value="" required>
+                        <div class="invalid-feedback">Please enter a valid name.</div>
+                    </div>
+                    <div class="col-md-6 mt-0">
+                        <label for="validationCustom12" class="form-label">Emergency contact number</label>
+                        <input type="text" class="form-control" id="validationCustom15" name="emergency_phone" value="" required>
+                        <div class="invalid-feedback">Please enter a valid phone number.</div>
+                    </div>
+                    <hr/>
+                    <div class="col-12 mt-0">
+                        <input type="hidden" id="image" name="image" value="0">
+                        <button class="btn btn-primary w-100" type="submit" id="create">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <div class="visually-hidden py-4"> . </div>
+    </main>
+
+    {% include 'footer.jinja2' %}
+{% endblock %}

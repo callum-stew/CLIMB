@@ -1,0 +1,118 @@
+{% extends 'member_dashboard_layout.jinja2' %}
+
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='css/timepicker.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="row g-3">
+        <div class="col-md-7 col-lg-8">
+            <div class="card">
+                <div class="card-header">{% if not selected_booking %}Create {% endif %}Booking</div>
+                <div class="card-body" id="make_booking">
+                    <form method="post">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label for="group-selection" class="form-label">Select members in group <small>(Max: {{ max_people }})</small></label>
+                                <ul class="list-group" id="group-selection">
+                                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                                        <div>
+                                            <h6 class="my-0">Adult</h6>
+                                            <span class="text-muted">£{{ adult_price }}</span>
+                                        </div>
+                                        <label for="numAdult"></label><input type="number" class="form-control w-25" min=0 step="1" id="numAdult" name="numAdult" value="{% if not selected_booking %}0{% else %}{{ selected_booking.adults }}{% endif %}" required>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                                        <div>
+                                            <h6 class="my-0">Child</h6>
+                                            <span class="text-muted">£{{ child_price }}</span>
+                                        </div>
+                                        <label for="numChild"></label><input type="number" class="form-control w-25" min=0 step="1" id="numChild" name="numChild" value="{% if not selected_booking %}0{% else %}{{ selected_booking.children }}{% endif %}" required>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <span>Total</span>
+                                        <strong id="total">£0</strong>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label for="session-length" class="form-label">Select session time</label>
+                                        <div class="input-group">
+                                            <select class="form-select" name="length" id="length">
+                                                <option value="30" {% if not selected_booking or (selected_booking.end - selected_booking.start) == 1800 %}selected{% endif %}>30</option>
+                                                <option value="60" {% if selected_booking and (selected_booking.end - selected_booking.start) == 3600 %}selected{% endif %}>60</option>
+                                                <option value="90" {% if selected_booking and (selected_booking.end - selected_booking.start) == 5400 %}selected{% endif %}>90</option>
+                                                <option value="120" {% if selected_booking and (selected_booking.end - selected_booking.start) == 7200 %}selected{% endif %}>120</option>
+                                            </select>
+                                            <span class="input-group-text" id="basic-addon2">Minutes</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="datepicker" class="form-label">Select Date</label>
+                                        <input id="datepicker" class="form-control" readonly="" style="background-color: white" name="date">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="time" class="form-label">Select session time</label>
+                                        <select class="form-select" name="time" id="time" disabled>
+                                            <option value="0" selected id="d-time">Available time slots</option>
+                                        </select>
+                                    </div>
+                                    {% if not selected_booking %}
+                                        <div class="col-12 d-flex">
+                                            <button class="btn btn-outline-primary flex-fill" type="submit" id="submit" disabled>Submit</button>
+                                        </div>
+                                    {% else %}
+                                        <div class="col-6 d-flex">
+                                            <button class="btn btn-primary flex-fill" type="submit" id="submit">Update</button>
+                                        </div>
+                                        <div class="col-6 d-flex">
+                                            <button class="btn btn-outline-danger flex-fill" type="submit" onclick="deleteBooking({{ selected_booking.booking_id }})">Delete</button>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5 col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    My Bookings
+                </div>
+                <ul class="list-group list-group-flush" id="my_bookings">
+                    {% for booking in bookings %}
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0 booking_start" timestamp-start="{{ booking.start }}" timestamp-end="{{ booking.end }}"></h6>
+                                <small class="text-muted">Adults: {{ booking.adults }} Children: {{ booking.children }}</small>
+                            </div>
+                            <div>
+                                <span class="text-muted">£{{ booking.adults|int * adult_price|float + booking.children|int * child_price|float }}</span>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="editBooking({{ booking.booking_id }})">Edit</button>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>const c_data = {{ calendar_data }}</script>
+    <script>const maxPeople = {{ max_people }}</script>
+    <script>const adultPrice = {{ adult_price }}</script>
+    <script>const childPrice = {{ child_price }}</script>
+    <script>const selectedDate = new Date({% if selected_booking %}{{ selected_booking.start * 1000 }}{% else %}0{% endif %})</script>
+    <script>const selectedBookingId = {% if selected_booking %}{{ selected_booking.booking_id }}{% else %}NaN{% endif %}</script>
+    <script src="{{ url_for('static', filename='js/litepicker.js') }}"></script>
+    <script src="{{ url_for('dashboard_bp.static', filename='js/member_bookings.js') }}"></script>
+{% endblock %}

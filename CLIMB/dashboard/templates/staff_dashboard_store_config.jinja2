@@ -1,0 +1,71 @@
+{% extends 'staff_dashboard_layout.jinja2' %}
+
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='css/muuri.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="row g-3">
+        <div class="col-md-5 col-lg-4 order-md-last">
+            <div class="card">
+                <div class="card-header">
+                    Product
+                </div>
+                <div class="card-body" id="item_edit">
+                    {% if not selected_product %}
+                        <div class= "alert alert-secondary m-3 pt-0 pb-0">
+                            <p class="mt-3">- Click a product to edit it</p>
+                            <p>- Drag products to rearrange order</p>
+                            <p>- Fill in feilds and click add new product to create a new product</p>
+                        </div>
+                    {% endif %}
+                    <form class="row mx-3" method="post" novalidate>
+                        <label for="ProductName" class="form-label">Product name</label>
+                        <input type="text" class="form-control" id="ProductName" name="name" value="{{ selected_product.name }}" required>
+
+                        <label for="ProductPrice" class="form-label">Product price</label>
+                        <input type="number" class="form-control" min=0.01 step="any" id="ProductPrice" name="price" value="{{ selected_product.price }}" required>
+
+                        <hr/>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-primary mx-2 flex-fill" type="submit">{% if selected_product %}Update{% else %}Add new product{% endif %}</button>
+                            {% if selected_product %}
+                                <input type="button" class="btn btn-outline-danger mx-2 flex-fill" onclick="deleteProduct()" value="Delete">
+                                <input type="button" class="btn btn-danger mx-2 flex-fill" onclick="closeProduct()" value="Close">
+                            {% endif %}
+                        </div>
+                    </form> 
+                </div>   
+            </div>
+        </div>
+
+        <div class="col-md-7 col-lg-8">
+            <div class="card" id="store_items">
+                <div class="card-header">Products</div>
+                <div class="card-body">
+                    <div class="grid">
+                        {% for product in products %}
+                            <div class="item {% if selected_product.product_id == product.product_id %}border border-primary border-3{% endif %}" data-title="{{ product.name }}" data-id="{{ product.product_id }}" data-price="{{ product.price }}" data-user-specific="{{ product.user_specific }}">
+                                <div class="item-content">
+                                    <div class="row">
+                                        <span>{{ product.name }}</span>
+                                    </div>
+                                    <div class="row">
+                                        <strong>£{{ product.price }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/muuri/muuri.js') }}"></script>
+    <script src="{{ url_for('dashboard_bp.static', filename='js/store_config.js') }}"></script>
+{% endblock %}

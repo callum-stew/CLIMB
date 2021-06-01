@@ -1,0 +1,45 @@
+{% extends 'staff_dashboard_layout.jinja2' %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">{% if person_type == 'staff' %}Staff{% else %}Members{% endif %}</div>
+        <ul class="list-group list-group-flush" id="my_bookings">
+            {% for person in people %}
+                <li class="list-group-item">
+                    <div class="row g-3">
+                        <div class="col-5">
+                            <h6 style="margin-top: 0.5rem;">Name: {{ person.first_name }} {{ person.middle_name }} {{ person.last_name }}</h6>
+                        </div>
+                        <div class="col-5">
+                            <h6 style="margin-top: 0.5rem;">Email: {{ person.email }}</h6>
+                        </div>
+                        {% if person_type == 'staff' %}
+                            <div class="col-2 d-flex justify-content-center">
+                                <button type="button" class="btn btn-primary flex-fill" onclick="view_person('{{ person_type }}', {{ person.person_id }})">View</button>
+                            </div>
+                        {% else %}
+                            <div class="col-1 d-flex justify-content-center">
+                                <button type="button" class="btn btn-primary flex-fill" onclick="select_person('{{ person_type }}', {{ person.person_id }})">Select</button>
+                            </div>
+                            <div class="col-1 d-flex justify-content-center">
+                                <button type="button" class="btn btn-primary flex-fill" onclick="view_person('{{ person_type }}', {{ person.person_id }})">View</button>
+                            </div>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="card-footer d-flex justify-content-center">
+            <button type="button" class="btn btn-primary flex-fill" onclick="new_person('{{ person_type }}')">Create new {% if person_type == 'staff' %}staff{% endif %} member</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('dashboard_bp.static', filename='js/person_view.js') }}"></script>
+{% endblock %}

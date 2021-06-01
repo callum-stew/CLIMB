@@ -1,0 +1,47 @@
+{% extends 'member_dashboard_layout.jinja2' %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <div class="card border-bottom-0">
+        <div class="card-header d-flex justify-content-between">
+            Your Transactions
+            <span data-feather="list"></span>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% if transactions != [] %}
+                {% for transaction in transactions %}
+                    <li class="list-group-item d-flex justify-content-between lh-sm" data-bs-toggle="collapse" data-bs-target="#collapse{{ transaction.sale_id }}">
+                        <h6 class="my-0">{{ transaction.date }}</h6>
+                        <h6 class="my-0">£{{ transaction.total }}</h6>
+                    </li>
+                    <div class="collapse" id="collapse{{ transaction.sale_id }}">
+                        <li class="list-group-item border-top-0 border-start-0 border-end-0 p-0">
+                            <table class="table table-striped mb-0 table-borderless table-secondary">
+                                <tbody>
+                                {% for product in transaction.products %}
+                                    <tr>
+                                        <td>{{ product[1] }}x</td>
+                                        <td>{{ product[0].name }}</td>
+                                        <td>{{ product[0].price }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </li>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <li class="list-group-item">
+                    <h6 class="my-0">You have no transactions.</h6>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}

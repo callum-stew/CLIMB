@@ -1,0 +1,169 @@
+{% extends 'staff_dashboard_layout.jinja2' %}
+
+{% block head %}
+    {{ super() }}
+    <style>
+        #my_camera{
+            width: 320px;
+            height: 240px;
+            border: 1px solid black;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">{% if not member %}New {% endif %}Member</div>
+        <div class="card-body">
+            <form class="row g-3 needs-validation" method="post" novalidate>
+                <div class="col-md-4">
+                    <label for="validationCustom01" class="form-label">First name</label>
+                    <input type="text" class="form-control" id="validationCustom01" name="first_name" value="{{ member.first_name }}" required>
+                    <div class="valid-feedback">Please enter a valid first name.</div>
+                </div>
+                <div class="col-md-4">
+                    <label for="validationCustom02" class="form-label">Middle name (optional)</label>
+                    <input type="text" class="form-control" id="validationCustom02" name="middle_name" value="{{ member.middle_name }}">
+                </div>
+                <div class="col-md-4">
+                    <label for="validationCustom03" class="form-label">Last name</label>
+                    <input type="text" class="form-control" id="validationCustom03" name="last_name" value="{{ member.last_name }}" required>
+                    <div class="invalid-feedback">Please enter a valid last name.</div>
+                </div>
+                <hr/>
+                <div class="col-md-6 mt-0">
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <label for="validationCustom04" class="form-label">Address line 1</label>
+                            <input type="text" class="form-control" id="validationCustom04" name="address_line_1" value="{{ member.address_line_1 }}" required>
+                            <div class="valid-feedback">Looks good!</div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom05" class="form-label">Address line 2</label>
+                            <input type="text" class="form-control" id="validationCustom05" name="address_line_2" value="{{ member.address_line_2 }}" required>
+                            <div class="valid-feedback">Looks good!</div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom06" class="form-label">Town / City</label>
+                            <input type="text" class="form-control" id="validationCustom06" name="address_line_3" value="{{ member.address_line_3 }}" required>
+                            <div class="invalid-feedback">Please enter a town / city.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-0">
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <label for="validationCustom07" class="form-label">County</label>
+                            <input type="text" class="form-control" id="validationCustom07" name="county" value="{{ member.county }}" required>
+                            <div class="invalid-feedback">Please enter a valid county.</div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom08" class="form-label">Postcode</label>
+                            <input type="text" class="form-control" id="validationCustom08" name="postcode" value="{{ member.postcode }}" required>
+                            <div class="invalid-feedback">Please enter a valid postcode.</div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <div class="col-md-6 mt-0">
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <label for="validationCustom10" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="validationCustom10" name="email" value="{{ member.email }}" required>
+                            <div class="invalid-feedback">Please enter a valid email.</div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom11" class="form-label">Date of birth</label>
+                            <input type="date" class="form-control" id="validationCustom11" name="date_of_birth" value="{{ member.date_of_birth }}" required>
+                            <div class="invalid-feedback">Please enter a valid date.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-0">
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <label for="validationCustom12" class="form-label">Home phone number</label>
+                            <input type="text" class="form-control" id="validationCustom12" name="home_phone" value="{{ member.home_phone }}">
+                            <div class="invalid-feedback">Please enter a valid phone number.</div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom13" class="form-label">Mobile phone number</label>
+                            <input type="text" class="form-control" id="validationCustom13" name="mobile_phone" value="{{ member.mobile_phone }}">
+                            <div class="invalid-feedback">Please enter a valid phone number.</div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <div class="col-md-6 mt-0">
+                    <label for="validationCustom12" class="form-label">Emergency contact full name</label>
+                    <input type="text" class="form-control" id="validationCustom14" name="emergency_name" value="{{ member.emergency_name }}" required>
+                    <div class="invalid-feedback">Please enter a valid name.</div>
+                </div>
+                <div class="col-md-6 mt-0">
+                    <label for="validationCustom12" class="form-label">Emergency contact number</label>
+                    <input type="text" class="form-control" id="validationCustom15" name="emergency_phone" value="{{ member.emergency_phone }}" required>
+                    <div class="invalid-feedback">Please enter a valid phone number.</div>
+                </div>
+                <hr/>
+                <div class="col-12 mt-0">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="camBut">Take picture</button>
+                    <input type="hidden" id="image" name="image" value='0'>
+                    <button class="btn btn-primary" type="submit" id="create" {% if not member %}disabled>Create{% else %}>Update{% endif %}</button>
+                    {% if member %}<button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>{% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Camera</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div id="my_camera"></div>
+                        </div>
+                        <div class="col-6">
+                            <div id="results" >
+                                {% if member %}
+                                <img src="../static/user_images/user_img_{{ member.person_id }}.jpg" alt="member image">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-primary" value="Take Snapshot" onClick="take_snapshot()">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Are you sure you want to delete this member.</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="delete_member()">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('dashboard_bp.static', filename='js/form_validation.js') }}"></script>
+    <script src="{{ url_for('dashboard_bp.static', filename='js/member_edit.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/webcamjs/webcam.min.js') }}"></script>
+    <script src="{{ url_for('dashboard_bp.static', filename='js/camera.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'staff_dashboard_layout.jinja2' %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <div class="row g-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row g-3">
+                        <div class="col-4">
+                            <label for="datepicker" class="form-label">Select Date</label>
+                            <input id="datepicker" class="form-control" readonly="" style="background-color: white" name="date">
+                        </div>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush" id="my_bookings">
+                    {% if bookings == [] %}
+                        <li class="list-group-item">
+                            <h6 class="text-center">No bookings on this date.</h6>
+                        </li>
+                    {% else %}
+                        {% for booking in bookings %}
+                            <li class="list-group-item d-flex justify-content-between lh-sm {% if booking.completed %}list-group-item-secondary{% elif booking_people[booking.person_id].user_type in ['STAFF', 'ADMIN'] %}list-group-item-info{% endif %}">
+                                <div>
+                                    <h6 class="my-0 booking_start" timestamp-start="{{ booking.start }}" timestamp-end="{{ booking.end }}"></h6>
+                                    <small class="text-muted">Adults: {{ booking.adults }} Children: {{ booking.children }}</small>
+                                </div>
+                                <div>
+                                    <span class="text-muted">£{{ booking.adults|float * adult_price|int + booking.children|float * child_price|int }}</span>
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="editBooking({{ booking.booking_id }})">{% if booking.start < current_date %}View{% else %}Edit{% endif %}</button>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="newBooking()">New booking</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>const c_data = {{ calendar_data }}</script>
+    <script>const maxPeople = {{ max_people }}</script>
+    <script>const adultPrice = {{ adult_price }}</script>
+    <script>const childPrice = {{ child_price }}</script>
+    <script>const selectedDate = new Date({% if selected_date %}{{ selected_date * 1000 }}{% else %}0{% endif %})</script>
+    <script src="{{ url_for('static', filename='js/litepicker.js') }}"></script>
+    <script src="{{ url_for('dashboard_bp.static', filename='js/staff_bookings.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends 'layout.jinja2' %}
+
+{% set page = '/' + request.path.split('/').pop() %}
+
+{% block head %}
+    <link href="{{ url_for('dashboard_bp.static', filename='css/dashboard_layout.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 text-center" href="{{ url_for('dashboard_bp.dashboard') }}">
+            <img class="d-inline-block align-top" src="../static/CLIMB-logo-white.svg" alt="CLIMB" width="30" height="24">
+            CLIMB
+        </a>
+        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <input class="form-control form-control-dark w-100" type="text" placeholder="Search name or email" aria-label="Search" id="user_search">
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="{{ url_for('auth_bp.logout') }}">Sign out</a>
+            </li>
+        </ul>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link {% if page == '/' %}active{% endif %}" aria-current="page" href="{{ url_for('dashboard_bp.dashboard') }}">
+                                <span data-feather="home"></span>
+                                Dashboard
+                            </a>
+                        </li>
+                        {% if user.has_permission('BOOKINGS') %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if page == '/bookings' %}active{% endif %}" aria-current="page" href="{{ url_for('dashboard_bp.bookings') }}">
+                                    <span data-feather="calendar"></span>
+                                    Bookings
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>Config</span>
+                    </h6>
+                    <ul class="nav flex-column">
+                        {% if user.has_permission('SETTINGS') %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if page == '/settings' %}active{% endif %}" href="{{ url_for('dashboard_bp.settings') }}">
+                                    <span data-feather="settings"></span>
+                                    Settings
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if user.has_permission('STORE_CONFIG') %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if page == '/store' %}active{% endif %}" aria-current="page" href="{{ url_for('dashboard_bp.store_config') }}">
+                                    <span data-feather="shopping-bag"></span>
+                                    Store
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if user.has_permission('STAFF_DATA') %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if page == '/staff' %}active{% endif %}" href="{{ url_for('dashboard_bp.person_list', type='staff') }}">
+                                    <span data-feather="users"></span>
+                                    Staff
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3" id="main">
+                {% include 'alert.jinja2' %}
+                {% block content %}{% endblock %}
+                <div class="visually-hidden py-4"> . </div>
+            </main>
+        </div>
+    </div>
+
+    {% include 'footer.jinja2' %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
+    <script>feather.replace()</script>
+    <script src="{{ url_for('dashboard_bp.static', filename='js/search_bar.js') }}"></script>
+{% endblock %}

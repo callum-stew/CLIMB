@@ -1,0 +1,165 @@
+{% extends 'staff_dashboard_layout.jinja2' %}
+
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('dashboard_bp.static', filename='css/staff_dashboard.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/muuri.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    {% if selected_member %}
+        <div class="row g-3">
+            <div class="col-8">
+                <div class="p-3 card" style="height: 222px">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img class="img-thumbnail" style="max-height: 175px" src="../static/user_images/user_img_{{ selected_member.person_id }}.jpg?dummy={{ range(100, 1000) | random }}" alt="PERSON">
+                            </div>
+                            <div class="col-md-6">
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <th scope="row">First Name</th>
+                                        <td>{{ selected_member.first_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Middle Name</th>
+                                        <td>{{ selected_member.middle_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Last Name</th>
+                                        <td>{{ selected_member.last_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Email</th>
+                                        <td>{{ selected_member.email }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-secondary mb-3" onclick="editMember()">View Details</button>
+                                    <button type="button" class="btn btn-danger" onclick="closeMember()">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card" style="height: 222px">
+                    <div class="card-header d-flex justify-content-between">
+                        Members Bookings
+                        <button type="button" class="btn btn-primary btn-sm py-0" onclick="createBooking()">Create Booking</button>
+                    </div>
+                    <ul class="list-group list-group-flush" id="my_bookings">
+                        {% if available_booking %}
+                            <li class="list-group-item d-flex justify-content-between lh-sm {% if available_booking.open %}list-group-item-success{% else %}list-group-item-primary{% endif %}">
+                                <div>
+                                    <h6 class="my-0 booking_start" timestamp-start="{{ available_booking.start }}" timestamp-end="{{ available_booking.end }}"></h6>
+                                    <small class="text-muted">Adults: {{ available_booking.adults }} Children: {{ available_booking.children }}</small>
+                                </div>
+                                <div>
+                                    <span class="text-muted">£{{ available_booking.adults|int * adult_price|float + available_booking.children|int * child_price|float }}</span>
+                                    {% if available_booking.open %}<button type="button" class="btn btn-primary btn-sm" id="addBookingToBasket" data-price="{{ available_booking.adults|int * adult_price|float + available_booking.children|int * child_price|float }}" timestamp-start="{{ available_booking.start }}" timestamp-end="{{ available_booking.end }}" data-id="{{ available_booking.booking_id }}">Add to basket</button>{% endif %}
+                                </div>
+                            </li>
+                        {% endif %}
+                        {% for booking in bookings %}
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 class="my-0 booking_start" timestamp-start="{{ booking.start }}" timestamp-end="{{ booking.end }}"></h6>
+                                    <small class="text-muted">Adults: {{ booking.adults }} Children: {{ booking.children }}</small>
+                                </div>
+                                <div>
+                                    <span class="text-muted">£{{ booking.adults|int * adult_price|float + booking.children|int * child_price|float }}</span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="p-3 card create-user-box text-center" onclick="createMember()">
+            <h4>No user selected | Add new member</h4>
+        </div>
+    {% endif %}
+
+    <div class="row g-3 pt-2">
+        <div class="col-md-5 col-lg-4 order-md-last">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    Basket
+                    <span data-feather="shopping-cart"></span>
+                </div>
+                <ul class="list-group list-group-flush" id="basket">
+                </ul>
+                <div class="card-footer d-flex justify-content-between">
+                    <div class=basketTotalDiv>
+                        <span class="pe-1">Total:</span>
+                        <strong id="basketTotal">£0</strong>
+                    </div>
+                    <button type="button" class="btn btn-primary pb-0 pt-0" data-bs-toggle="modal" data-bs-target="#orderModal">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7 col-lg-8">
+            <div class="card" id="store">
+                <div class="card-header">
+                    <input class="form-control me-2" type="search" placeholder="Search" id="store_search">
+                </div>
+                <div class="card-body">
+                    <div class="grid">
+                        {% for product in products %}
+                            <div class="item">
+                                <div class="item-content">
+                                    <div class="row">
+                                        <span>{{ product.name }}</span>
+                                    </div>
+                                    <div class="row">
+                                        <strong>£{{ product.price }}</strong>
+                                    </div>
+                                    <div class="d-flex justify-content-center fixed-bottom">
+                                        <div style="width: 30px; height: 30px">
+                                            <span data-feather="plus-square" style="width: 100%; height: 100%" class="addItem item-button" data-title="{{ product.name }}" data-id="{{ product.product_id }}" data-price="{{ product.price }}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderModalLabel">Please confirm this sale.</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="orderModalTotal">Total: £0</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="makeSale()" data-bs-dismiss="modal">Confirm</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('dashboard_bp.static', filename='js/staff_dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/muuri/muuri.js') }}"></script>
+    <script src="{{ url_for('dashboard_bp.static', filename='js/staff_dashboard_store.js') }}"></script>
+{% endblock %}
