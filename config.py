@@ -15,5 +15,5 @@ class Config:
     DATABASE_NAME = 'CLIMB_DATABASE.sqlite3'
 
     # Email settings
-    SENDER_EMAIL = 'dev.callum.d.stew@gmail.com'
-    SENDER_EMAIL_PASSWORD = 'DevPass24'
+    SENDER_EMAIL = 'email'
+    SENDER_EMAIL_PASSWORD = 'password'
